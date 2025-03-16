@@ -22,8 +22,11 @@ builder.Services.AddSingleton<IConnection>(provider =>
     }
     catch (Exception ex)
     {
-        var logger = provider.GetRequiredService<ILogger<Program>>();
+        // Log locally using the logger
+        var logger = provider.GetRequiredService<ILogger<Program>>(); // Get ILogger from DI container
         logger.LogError(ex, "RabbitMQ connection failed.");
+
+        // Rethrow the exception to fail the application startup
         throw new InvalidOperationException("Failed to create RabbitMQ connection.", ex);
     }
 });
@@ -45,5 +48,5 @@ app.UseCors(options =>
             .AllowAnyMethod()
             .AllowCredentials()
             .AllowAnyHeader());
-//app.MapHub<MySignalRHub>("/listHub");
+app.MapHub<MySignalRHub>("/listHub");
 app.Run();
