@@ -15,6 +15,7 @@ namespace Consumer.Controllers
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
+            // just to test
             _logger = logger;
         }
 
