@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿//using Microsoft.AspNetCore.SignalR;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
@@ -7,15 +7,15 @@ namespace Consumer
 {
     public class ReadFromQueue(ILogger<ReadFromQueue> logger,
                       IConnection connection,
-                      MessageRepository messageRepository,
-                      IHubContext<MySignalRHub> hubContext) : IHostedService, IDisposable
+                      MessageRepository messageRepository) : IHostedService, IDisposable
+    //IHubContext<MySignalRHub> hubContext) : IHostedService, IDisposable
     {
         private readonly ILogger<ReadFromQueue> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         private readonly IConnection _connection = connection ?? throw new ArgumentNullException(nameof(connection));
         private IModel? _channel;
         private const string QueueName = "notifications5";
         private readonly MessageRepository _messageRepository = messageRepository ?? throw new ArgumentNullException(nameof(messageRepository));
-        private readonly IHubContext<MySignalRHub> _hubContext = hubContext ?? throw new ArgumentNullException(nameof(hubContext));
+        //private readonly IHubContext<MySignalRHub> _hubContext = hubContext ?? throw new ArgumentNullException(nameof(hubContext));
         private readonly string _exchangeName = "logs";
 
         public Task StartAsync(CancellationToken cancellationToken)
@@ -90,7 +90,7 @@ namespace Consumer
 
                 await _messageRepository.AddMessageAsync(message);
                 List<Message> _m = await _messageRepository.GetMessagesAsync("SenderId", "ReceiverId");
-                await _hubContext.Clients.All.SendAsync("ReceiveDataUpdate", _m);
+                //await _hubContext.Clients.All.SendAsync("ReceiveDataUpdate", _m);
                 _channel?.BasicAck(args.DeliveryTag, false);
             }
             catch (Exception ex)
