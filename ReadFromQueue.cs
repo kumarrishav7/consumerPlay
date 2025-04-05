@@ -13,7 +13,7 @@ namespace Consumer
         private readonly ILogger<ReadFromQueue> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         private readonly IConnection _connection = connection ?? throw new ArgumentNullException(nameof(connection));
         private IModel? _channel;
-        private const string QueueName = "notifications5";
+        private const string QueueName = "";
         private readonly MessageRepository _messageRepository = messageRepository ?? throw new ArgumentNullException(nameof(messageRepository));
         //private readonly IHubContext<MySignalRHub> _hubContext = hubContext ?? throw new ArgumentNullException(nameof(hubContext));
         private readonly string _exchangeName = "logs";
